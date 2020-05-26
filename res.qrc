@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/graphics">
+        <file>alien.jpeg</file>
+        <file>alien.gif</file>
+    </qresource>
+</RCC>
