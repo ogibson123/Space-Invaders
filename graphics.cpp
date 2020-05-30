@@ -10,9 +10,12 @@ Graphics::Graphics(){
     QImage alien_graphic6 = QImage(12, 8, QImage::Format_RGB32);
     QImage death_graphic = QImage(13, 7, QImage::Format_RGB32);
     QImage player_graphic = QImage(11, 7, QImage::Format_RGB32);
+    QImage ufo_graphic = QImage(16, 7, QImage::Format_RGB32);
+    QImage ufo_death = QImage(13, 7, QImage::Format_RGB32);
     QRgb white = qRgb(255, 255, 255);
     QRgb black = qRgb(0, 0, 0);
     QRgb green = qRgb(0, 255, 0);
+    QRgb red = qRgb(255, 0, 0);
     int matrix_alien_1[8][11] = {{0,0,1,0,0,0,0,0,1,0,0}, {0,0,0,1,0,0,0,1,0,0,0}, {0,0,1,1,1,1,1,1,1,0,0}, {0,1,1,0,1,1,1,0,1,1,0}, {1,1,1,1,1,1,1,1,1,1,1}, {1,0,1,1,1,1,1,1,1,0,1}, {1,0,1,0,0,0,0,0,1,0,1}, {0,0,0,1,1,0,1,1,0,0,0}};
     int matrix_alien_2[8][11] = {{0,0,1,0,0,0,0,0,1,0,0}, {1,0,0,1,0,0,0,1,0,0,1}, {1,0,1,1,1,1,1,1,1,0,1}, {1,1,1,0,1,1,1,0,1,1,1}, {1,1,1,1,1,1,1,1,1,1,1}, {0,1,1,1,1,1,1,1,1,1,0}, {0,0,1,0,0,0,0,0,1,0,0}, {0,1,0,0,0,0,0,0,0,1,0}};
     int matrix_alien_3[8][8] = {{0,0,0,1,1,0,0,0}, {0,0,1,1,1,1,0,0}, {0,1,1,1,1,1,1,0}, {1,1,0,1,1,0,1,1}, {1,1,1,1,1,1,1,1}, {0,1,0,1,1,0,1,0}, {1,0,0,0,0,0,0,1}, {0,1,0,0,0,0,1,0}};
@@ -21,6 +24,7 @@ Graphics::Graphics(){
     int matrix_alien_6[8][12] = {{0,0,0,0,1,1,1,1,0,0,0,0}, {0,1,1,1,1,1,1,1,1,1,1,0}, {1,1,1,1,1,1,1,1,1,1,1,1}, {1,1,1,0,0,1,1,0,0,1,1,1}, {1,1,1,1,1,1,1,1,1,1,1,1}, {0,0,1,1,1,0,0,1,1,1,0,0}, {0,1,1,0,0,1,1,0,0,1,1,0}, {0,0,1,1,0,0,0,0,1,1,0,0}};
     int death_matrix[7][13] = {{0,1,0,0,1,0,0,0,1,0,0,1,0}, {0,0,1,0,0,1,0,1,0,0,1,0,0}, {0,0,0,1,0,0,0,0,0,1,0,0,0}, {1,1,0,0,0,0,0,0,0,0,0,1,1}, {0,0,0,1,0,0,0,0,0,1,0,0,0}, {0,0,1,0,0,1,0,1,0,0,1,0,0}, {0,1,0,0,1,0,0,0,1,0,0,1,0}};
     int player_matrix[7][11] = {{0,0,0,0,0,1,0,0,0,0,0}, {0,0,0,0,1,1,1,0,0,0,0}, {0,0,0,0,1,1,1,0,0,0,0}, {0,1,1,1,1,1,1,1,1,1,0}, {1,1,1,1,1,1,1,1,1,1,1}, {1,1,1,1,1,1,1,1,1,1,1}, {1,1,1,1,1,1,1,1,1,1,1}};
+    int ufo_matrix[7][16] = {{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0}, {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0}, {0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}};
     for(int i=0; i<8; i++){
         for(int j = 0; j<13; j++){
             if(j<12){
@@ -62,9 +66,11 @@ Graphics::Graphics(){
             if(i<7){
                 if(death_matrix[i][j]==0){
                     death_graphic.setPixel(j, i, black);
+                    ufo_death.setPixel(j, i, black);
                }
                 else{
                     death_graphic.setPixel(j, i, white);
+                    ufo_death.setPixel(j, i, red);
                 }
             }
         }
@@ -85,6 +91,16 @@ Graphics::Graphics(){
             }
         }
     }
+    for(int i=0; i<7; i++){
+        for(int j=0; j<16; j++){
+            if(ufo_matrix[i][j]==0){
+                ufo_graphic.setPixel(j, i, black);
+            }
+            else{
+                ufo_graphic.setPixel(j, i, red);
+            }
+        }
+    }
 
 
     QPixmap temp_alien_pixmap1 = QPixmap::fromImage(alien_graphic1);
@@ -95,6 +111,8 @@ Graphics::Graphics(){
     QPixmap temp_alien_pixmap4 = QPixmap::fromImage(alien_graphic4);
     QPixmap temp_alien_pixmap5 = QPixmap::fromImage(alien_graphic5);
     QPixmap temp_alien_pixmap6 = QPixmap::fromImage(alien_graphic6);
+    QPixmap temp_ufo_pixmap = QPixmap::fromImage(ufo_graphic);
+    QPixmap temp_ufo_death = QPixmap::fromImage(ufo_death);
     alien_pixmap1 = temp_alien_pixmap1.scaled(QSize(27, 20));
     alien_pixmap2 = temp_alien_pixmap2.scaled(QSize(27, 20));
     alien_pixmap3 = temp_alien_pixmap3.scaled(QSize(24, 24));
@@ -103,5 +121,7 @@ Graphics::Graphics(){
     alien_pixmap6 = temp_alien_pixmap6.scaled(QSize(30, 20));
     death_pixmap = temp_death.scaled(QSize(27, 20));
     player_pixmap = temp_player.scaled(QSize(38, 24));
+    ufo_pixmap = temp_ufo_pixmap.scaled(QSize(48, 21));
+    ufo_death_pixmap = temp_ufo_death.scaled(QSize(27, 20));
     graphics_loaded = true;
 }

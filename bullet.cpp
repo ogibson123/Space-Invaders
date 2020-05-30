@@ -1,6 +1,7 @@
 #include <QTimer>
 #include "bullet.h"
 #include "graphics.h"
+#include "ufo.h"
 #include <QGraphicsScene>
 #include <QList>
 #include <alien.h>
@@ -33,6 +34,14 @@ Bullet::Bullet(bool shotByPlayer){
                 delete this;
                 return;
               }
+            else if (typeid(*(collisions[i])) == typeid(UFO)){
+                ((UFO*)collisions[i])->isMoving = false;
+                ((UFO*)collisions[i])->deathAnimation();
+                game->player_bullet_exists = false;
+                game->score->ufoIncrease();
+                delete this;
+                return;
+            }
 
             else if (typeid(*(collisions[i])) == typeid(Bullet)){
                 scene()->removeItem(collisions[i]);
@@ -70,7 +79,7 @@ Bullet::Bullet(bool shotByPlayer){
         }
 
         else{
-            setPos(x(), y()+12);
+            setPos(x(), y()+14);
             if (pos().y()+rect().height() > 700){
                 game->alienBullets--;
                 scene()->removeItem(this);

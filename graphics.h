@@ -14,6 +14,8 @@ public:
     QPixmap alien_pixmap6;
     QPixmap player_pixmap;
     QPixmap death_pixmap;
+    QPixmap ufo_pixmap;
+    QPixmap ufo_death_pixmap;
     bool graphics_loaded = false;
 };
 

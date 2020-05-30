@@ -13,6 +13,11 @@ void Score::increase(){
     setPlainText(QString("Score: ") + QString::number(score));
 }
 
+void Score::ufoIncrease(){
+    score+=500;
+    setPlainText(QString("Score: ") + QString::number(score));
+}
+
 int Score::getScore(){
     return score;
 }

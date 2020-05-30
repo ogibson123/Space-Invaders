@@ -5,11 +5,13 @@
 #include "game.h"
 #include "alien.h"
 #include "graphics.h"
+#include "ufo.h"
 #include <QGraphicsView>
 #include <QTimer>
 
 extern Graphics *graphics;
 Game::Game(QWidget *parent){
+    //scene initialization
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 800, 700);
     setScene(scene);
@@ -17,8 +19,6 @@ Game::Game(QWidget *parent){
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(800, 700);
-
-
 
     //player initialization
     player = new Player();
@@ -64,6 +64,10 @@ Game::Game(QWidget *parent){
         ypos+=50;
         xpos=125;
     }
+    UFO *ufo = new UFO();
+    ufo->setPixmap(graphics->ufo_pixmap);
+    ufo->setPos(-50, 50);
+    scene->addItem(ufo);
     alienBullets = 0;
     score = new Score();
     scene -> addItem(score);

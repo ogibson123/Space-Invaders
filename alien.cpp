@@ -44,6 +44,7 @@ Alien::Alien(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
         delete this;
         return;
     }
+
     void Alien::move(){
         //move enemy side to side
         bool old_move = moving_right;
