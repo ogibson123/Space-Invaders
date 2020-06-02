@@ -1,5 +1,7 @@
 #include <QApplication>
 #include <QGraphicsScene>
+#include "bunker.h"
+#include "button.h"
 #include "player.h"
 #include "lives.h"
 #include "game.h"
@@ -7,11 +9,13 @@
 #include "graphics.h"
 #include "ufo.h"
 #include <QGraphicsView>
-#include <QTimer>
 
 extern Graphics *graphics;
 Game::Game(QWidget *parent){
-    //scene initialization
+
+    //initialize the scene
+    scene = new QGraphicsScene();
+    delete scene;
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 800, 700);
     setScene(scene);
@@ -20,16 +24,13 @@ Game::Game(QWidget *parent){
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(800, 700);
 
-    //player initialization
-    player = new Player();
-    player_bullet_exists = false;
-    player->setFlag(QGraphicsItem::ItemIsFocusable);
-    player->setPixmap(graphics->player_pixmap);
-    player->setFocus();
-    player->setPos(400, 600);
-    scene->addItem(player);
+    //initialize rest of the game
+    initializeGame();
 
-    //enemies initialization
+    show();
+}
+
+void Game::spawnEnemies(){
     int xpos = 125;
     int ypos = 100;
     int x = 0;
@@ -64,17 +65,101 @@ Game::Game(QWidget *parent){
         ypos+=50;
         xpos=125;
     }
-    UFO *ufo = new UFO();
+}
+
+void Game::gameOver(){
+    for(int j = 0; j<55; j++){
+        if(!aliens[j]==NULL){
+            aliens[j]->stopTimers();
+        }
+    }
+    ufo->stopTimer();
+    drawPanel(0, 0, 800, 700, Qt::black, 0.65);
+    drawPanel(255, 200, 325, 100, Qt::red,0.9);
+    QGraphicsTextItem* message = new QGraphicsTextItem(QString("GAME OVER"));
+    message->setPos(373,220);
+    scene->addItem(message);
+    Button *quit = new Button(QString("Quit"));
+    quit->setPos(440, 255);
+    scene->addItem(quit);
+    connect(quit, SIGNAL(clicked()),this,SLOT(close()));
+    Button *retry = new Button(QString("Retry"));
+    retry->setPos(300, 255);
+    scene->addItem(retry);
+    connect(retry, SIGNAL(clicked()),this, SLOT(restart()));
+}
+
+void Game::restart(){
+    scene->clear();
+    initializeGame();
+}
+
+void Game::initializeGame(){
+    //player initialization
+    player = new Player();
+    player_bullet_exists = false;
+    player->setFlag(QGraphicsItem::ItemIsFocusable);
+    player->setPixmap(graphics->player_pixmap);
+    player->setFocus();
+    player->setPos(400, 600);
+    totalKills = 0;
+    scene->addItem(player);
+
+    spawnEnemies();
+
+    ufo = new UFO();
     ufo->setPixmap(graphics->ufo_pixmap);
     ufo->setPos(-50, 50);
     scene->addItem(ufo);
+
+    //bunkers initialization
+    int bunkerXPos = 100;
+    int bunkerYPos = 525;
+    for(int i = 0; i<4; i++){
+        for(int j = 0; j<6; j++){
+            Bunker *bunker = new Bunker();
+            bunker->setPixmap(graphics->bunker1_pixmap);
+            switch(j){
+                case 0:
+                    bunker->setPos(bunkerXPos, bunkerYPos);
+                break;
+                case 1:
+                    bunker->setPos(bunkerXPos, bunkerYPos-25);
+                break;
+                case 2:
+                    bunker->setPos(bunkerXPos+25, bunkerYPos-25);
+                break;
+                case 3:
+                    bunker->setPos(bunkerXPos+50, bunkerYPos-25);
+                break;
+                case 4:
+                    bunker->setPos(bunkerXPos+75, bunkerYPos-25);
+                break;
+                case 5:
+                    bunker->setPos(bunkerXPos+75, bunkerYPos);
+                break;
+            }
+            scene->addItem(bunker);
+        }
+        bunkerXPos+=175;
+    }
+
     alienBullets = 0;
     score = new Score();
     scene -> addItem(score);
     lives = new Lives();
     lives -> setPos(lives->x(), lives->y()+25);
     scene->addItem(lives);
-    show();
+}
+
+void Game::drawPanel(int x, int y, int width, int height, QColor color, double opacity){
+    QGraphicsRectItem *panel = new QGraphicsRectItem(x,y,width,height);
+    QBrush brush;
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(color);
+    panel->setBrush(brush);
+    panel->setOpacity(opacity);
+    scene->addItem(panel);
 }
 
 

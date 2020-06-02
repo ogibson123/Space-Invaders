@@ -20,6 +20,7 @@ public:
     QTimer *timer;
     QTimer *timer2;
     void deathAnimation();
+    void stopTimers();
 public slots:
     void shoot();
     void move();

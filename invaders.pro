@@ -32,7 +32,9 @@ SOURCES += \
     game.cpp \
     bullet.cpp \
     graphics.cpp \
-    ufo.cpp
+    ufo.cpp \
+    bunker.cpp \
+    button.cpp
 
 HEADERS += \
     alien.h \
@@ -42,7 +44,9 @@ HEADERS += \
     player.h \
     score.h \
     graphics.h \
-    ufo.h
+    ufo.h \
+    bunker.h \
+    button.h
 
 FORMS +=
 

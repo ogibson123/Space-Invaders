@@ -13,6 +13,11 @@ void Lives::decrease(){
     setPlainText(QString("Lives: ") + QString::number(lives));
 }
 
+void Lives::increase(){
+    lives++;
+    setPlainText(QString("Lives: ") + QString::number(lives));
+}
+
 int Lives::getLives(){
     return lives;
 }

@@ -10,7 +10,7 @@ extern Graphics *graphics;
 UFO::UFO(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
     movedOnce = false;
     isMoving = false;
-    QTimer *timer = new QTimer();
+    timer = new QTimer();
     moveTime = rand()%10000+20000;
     connect(timer, SIGNAL(timeout()),this,SLOT(triggerMove()));
     deathTimer = new QTimer();
@@ -31,7 +31,7 @@ UFO::UFO(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
 
     void UFO::move(){
         if(isMoving){
-            setPos(x()+8, y());
+            setPos(x()+6, y());
         }
         if(x()>800){
             moveTimer->stop();
@@ -44,6 +44,13 @@ UFO::UFO(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
         deathTimer->start(250);
     }
 
+    void UFO::stopTimer(){
+        isMoving = false;
+        delete timer;
+        if(movedOnce){
+            delete moveTimer;
+        }
+    }
     void UFO::setBack(){
         setPos(-50, 50);
         setPixmap(graphics->ufo_pixmap);

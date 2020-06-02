@@ -14,7 +14,9 @@ public:
     bool isMoving;
     QTimer *moveTimer;
     QTimer *deathTimer;
+    QTimer *timer;
     void deathAnimation();
+    void stopTimer();
 public slots:
     void triggerMove();
     void move();

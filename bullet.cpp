@@ -1,5 +1,6 @@
 #include <QTimer>
 #include "bullet.h"
+#include "bunker.h"
 #include "graphics.h"
 #include "ufo.h"
 #include <QGraphicsScene>
@@ -31,6 +32,7 @@ Bullet::Bullet(bool shotByPlayer){
                 game->score->increase();
                 scene()->removeItem(this);
                 game->player_bullet_exists = false;
+                game->totalKills++;
                 delete this;
                 return;
               }
@@ -52,6 +54,20 @@ Bullet::Bullet(bool shotByPlayer){
                 delete this;
                 return;
             }
+
+            else if (typeid(*(collisions[i])) == typeid(Bunker)){
+                ((Bunker*)collisions[i])->damageTaken++;
+                int damage =  ((Bunker*)collisions[i])->damageTaken;
+                if(((Bunker*)collisions[i])->damageTaken == 4){
+                    scene()->removeItem(collisions[i]);
+                }
+                else{
+                    ((Bunker*)collisions[i])->setPixmap(((Bunker*)collisions[i])->damageSprites[damage-1]);
+                }
+                game->player_bullet_exists = false;
+                delete this;
+                return;
+            }
           }
         }
 
@@ -61,6 +77,27 @@ Bullet::Bullet(bool shotByPlayer){
                 if(typeid(*(collisions[i])) == typeid(Player)){
                     game->lives->decrease();
                     scene()->removeItem(this);
+                    game->alienBullets--;
+                    delete this;
+                    if(game->lives->getLives()==0){
+                        ((Player*)collisions[i])->setPixmap(graphics->player_death_pixmap);
+                        ((Player*)collisions[i])->isDead = true;
+                        game->gameOver();
+                    }
+                    else{
+                        ((Player*)collisions[i])->deathAnimation();
+                    }
+                    return;
+                }
+                else if (typeid(*(collisions[i])) == typeid(Bunker)){
+                    ((Bunker*)collisions[i])->damageTaken++;
+                    int damage =  ((Bunker*)collisions[i])->damageTaken;
+                    if(((Bunker*)collisions[i])->damageTaken == 4){
+                        scene()->removeItem(collisions[i]);
+                    }
+                    else{
+                        ((Bunker*)collisions[i])->setPixmap(((Bunker*)collisions[i])->damageSprites[damage-1]);
+                    }
                     game->alienBullets--;
                     delete this;
                     return;
@@ -75,6 +112,7 @@ Bullet::Bullet(bool shotByPlayer){
                 game->player_bullet_exists = false;
                 scene()->removeItem(this);
                 delete this;
+                return;
             }
         }
 
@@ -84,6 +122,7 @@ Bullet::Bullet(bool shotByPlayer){
                 game->alienBullets--;
                 scene()->removeItem(this);
                 delete this;
+                return;
             }
         }
     }

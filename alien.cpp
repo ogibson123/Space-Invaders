@@ -23,7 +23,7 @@ Alien::Alien(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
         if(game->alienBullets<2){
             Bullet *bullet = new Bullet(false);
             bullet->setBrush(Qt::white);
-            bullet->setPos(x(), y()+30);
+            bullet->setPos(x()+10, y()+20);
             scene()->addItem(bullet);
             game->alienBullets++;
             random_shot_time = rand()%2000+2000;
@@ -39,8 +39,19 @@ Alien::Alien(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
         timer3->start(250);
     }
 
+    void Alien::stopTimers(){
+        timer->stop();
+        timer2->stop();
+    }
+
     void Alien::remove(){
+        game->aliens[id] = NULL;
         scene()->removeItem(this);
+        if(game->totalKills == 55){
+            game->totalKills = 0;
+            game->lives->increase();
+            game->spawnEnemies();
+        }
         delete this;
         return;
     }
