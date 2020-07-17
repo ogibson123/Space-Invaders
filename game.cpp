@@ -15,8 +15,6 @@ Game::Game(QWidget *parent){
 
     //initialize the scene
     scene = new QGraphicsScene();
-    delete scene;
-    scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 800, 700);
     setScene(scene);
     setBackgroundBrush(Qt::black);

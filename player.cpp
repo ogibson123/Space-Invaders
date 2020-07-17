@@ -18,17 +18,17 @@ Player::Player(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
 }
 
 void Player::keyPressEvent(QKeyEvent *event){
-    if(!isDead){
+    if (!isDead){
     if (event->key() == Qt::Key_Left){
-        if(pos().x() > 0)
+        if (pos().x() > 0)
            setPos(x()-20, y());
     }
     else if (event->key()==Qt::Key_Right){
-        if(pos().x()+50<800)
+        if (pos().x()+50<800)
            setPos(x()+20,y());
     }
     else if (event->key()==Qt::Key_Space){
-        if(!game->player_bullet_exists){
+        if (!game->player_bullet_exists){
             game->player_bullet_exists = true;
             Bullet *bullet = new Bullet(true);
             bullet->setBrush(Qt::green);

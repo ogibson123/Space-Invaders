@@ -19,6 +19,7 @@ Alien::Alien(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
     connect(timer2, SIGNAL(timeout()),this,SLOT(shoot()));
     timer2->start(random_shot_time);
 }
+
     void Alien::shoot(){
         if(game->alienBullets<2){
             Bullet *bullet = new Bullet(false);

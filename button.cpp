@@ -2,6 +2,7 @@
 #include <QBrush>
 #include <QGraphicsTextItem>
 
+//button for game-over screen
 Button::Button(QString name, QGraphicsItem *parent): QGraphicsRectItem(parent){
     setRect(0,0,100,25);
     QBrush brush;

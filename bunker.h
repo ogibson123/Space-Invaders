@@ -7,9 +7,9 @@
 
 class Bunker: public QObject,public QGraphicsPixmapItem{
     Q_OBJECT
-public:
-    Bunker(QGraphicsItem *parent=0);
-    int damageTaken;
-    QPixmap damageSprites[3];
+    public:
+        Bunker(QGraphicsItem *parent=0);
+        int damageTaken;
+        QPixmap damageSprites[3];
 };
 #endif // BUNKER_H

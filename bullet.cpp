@@ -91,7 +91,7 @@ Bullet::Bullet(bool shotByPlayer){
                 }
                 else if (typeid(*(collisions[i])) == typeid(Bunker)){
                     ((Bunker*)collisions[i])->damageTaken++;
-                    int damage =  ((Bunker*)collisions[i])->damageTaken;
+                    int damage = ((Bunker*)collisions[i])->damageTaken;
                     if(((Bunker*)collisions[i])->damageTaken == 4){
                         scene()->removeItem(collisions[i]);
                     }
@@ -105,7 +105,7 @@ Bullet::Bullet(bool shotByPlayer){
             }
         }
 
-        //move bullet
+        //move bullet upwards if shot by player, else downwards if shot by enemy
         if(isPlayer){
             setPos(x(), y()-23);
             if (pos().y()+rect().height() < 0){

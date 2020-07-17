@@ -51,6 +51,7 @@ UFO::UFO(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
             delete moveTimer;
         }
     }
+
     void UFO::setBack(){
         setPos(-50, 50);
         setPixmap(graphics->ufo_pixmap);

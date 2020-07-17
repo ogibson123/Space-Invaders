@@ -10,7 +10,7 @@ Game *game;
 Graphics *graphics;
 
 int main(int argc, char *argv[]){
-   QApplication a(argc, argv);
+    QApplication a(argc, argv);
     graphics = new Graphics();
     while(!graphics->graphics_loaded);
     game = new Game();
