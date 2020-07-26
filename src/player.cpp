@@ -12,8 +12,6 @@ extern Graphics *graphics;
 Player::Player(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
     isDead = false;
     deathTimer = new QTimer();
-    delete deathTimer;
-    deathTimer = new QTimer();
     connect(deathTimer, SIGNAL(timeout()),this,SLOT(revive()));
 }
 
